@@ -90,15 +90,6 @@ h1, h2, h3, h4, h5 {
   text-decoration: none;
 }
 
-.dvfr-shell {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0 2.5rem;
-}
-
 .dvfr-app {
   max-width: 820px;
   margin: 2.5rem auto 0;
@@ -106,59 +97,300 @@ h1, h2, h3, h4, h5 {
   min-width: 0;
 }
 
-.dvfr-shell .dvfr-app {
+.dvfr-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
   padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* ------------------------------------------------------------------- rail */
+/* --------------------------------------------------------- the change name */
 
-.dvfr-rail {
-  display: none;
+.dvfr-change {
+  margin: 0 0 1.25rem;
 }
 
-@media (min-width: 1040px) {
-  .dvfr-shell {
-    grid-template-columns: 210px minmax(0, 1fr);
-  }
-
-  .dvfr-rail {
-    display: block;
-    position: sticky;
-    top: 1.5rem;
-    align-self: start;
-    margin-top: 3.1rem;
-    border-left: 1px solid var(--dvfr-line);
-  }
-
-  .dvfr-shell .dvfr-app {
-    margin-top: 2.5rem;
-  }
+.dvfr-field-title input {
+  font-size: 1.15rem;
 }
 
-.dvfr-rail-list {
-  list-style: none;
-  counter-reset: rail;
-  margin: 0;
-  padding: 0;
+.dvfr-change-more {
+  margin: 0.25rem 0 0;
 }
 
-.dvfr-rail-link {
-  display: block;
-  padding: 0.4rem 0 0.4rem 0.9rem;
-  margin-left: -1px;
-  border-left: 2px solid transparent;
+.dvfr-change-more > summary {
+  cursor: pointer;
   color: var(--dvfr-muted);
-  text-decoration: none;
   font-size: 0.9rem;
-  line-height: 1.3;
+  padding: 0.2rem 0;
 }
 
-.dvfr-rail-link:hover {
+.dvfr-change-more > summary:hover {
   color: var(--dvfr-accent);
-  border-left-color: var(--dvfr-accent);
 }
 
-/* ------------------------------------------------------------------ steps */
+.dvfr-change-more[open] > summary {
+  margin-bottom: 0.75rem;
+}
+
+/* -------------------------------------------------------------- score bar */
+
+/* The score and the tabs travel together, so both stay reachable from anywhere
+   in a panel. The stuck state only paints a shadow: anything that changed the
+   block's height here would shift the page, un-stick the block, and oscillate. */
+.dvfr-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--dvfr-paper);
+}
+
+.dvfr-sticky.is-stuck {
+  box-shadow: 0 6px 12px -8px rgba(23, 32, 43, 0.45);
+}
+
+.dvfr-scorebar {
+  border: 1px solid var(--dvfr-line);
+  border-top: 3px solid var(--dvfr-blue);
+  background: var(--dvfr-wash);
+  padding: 0.7rem 0.9rem 0.8rem;
+}
+
+.dvfr-scorebar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dvfr-scorebar-math {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.dvfr-pill {
+  margin: 0;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  background: var(--dvfr-blue);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dvfr-pill.dvfr-verdict-zero,
+.dvfr-pill.dvfr-verdict-stalled {
+  background: var(--dvfr-accent);
+}
+
+.dvfr-pill.dvfr-verdict-fragile {
+  background: #a8701f;
+}
+
+.dvfr-pill.dvfr-verdict-moving,
+.dvfr-pill.dvfr-verdict-unstoppable {
+  background: var(--dvfr-green);
+}
+
+.dvfr-scorebar-force {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.88rem;
+  color: var(--dvfr-muted);
+}
+
+.dvfr-scorebar-bars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.dvfr-minibar {
+  appearance: none;
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr) 1.1rem;
+  align-items: center;
+  gap: 0.3rem;
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+.dvfr-minibar-letter,
+.dvfr-minibar-value {
+  font-size: 0.8rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--dvfr-muted);
+}
+
+.dvfr-minibar-value {
+  text-align: right;
+}
+
+.dvfr-minibar-track {
+  display: block;
+  height: 0.5rem;
+  background: var(--dvfr-paper);
+  border: 1px solid var(--dvfr-line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.dvfr-minibar-fill {
+  display: block;
+  height: 100%;
+  background: var(--dvfr-blue);
+}
+
+.dvfr-minibar.is-resistance .dvfr-minibar-fill {
+  background: var(--dvfr-accent);
+}
+
+.dvfr-minibar.is-weak .dvfr-minibar-fill {
+  background: var(--dvfr-accent-dark);
+}
+
+.dvfr-minibar.is-weak .dvfr-minibar-letter,
+.dvfr-minibar.is-weak .dvfr-minibar-value {
+  color: var(--dvfr-accent-dark);
+}
+
+.dvfr-minibar:hover .dvfr-minibar-track {
+  border-color: var(--dvfr-accent);
+}
+
+.dvfr-minibar:focus-visible {
+  outline: 2px solid var(--dvfr-accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------- tabs */
+
+.dvfr-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  background: var(--dvfr-paper);
+  border-bottom: 1px solid var(--dvfr-line);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.dvfr-tab {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--dvfr-muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.7rem 0.7rem 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dvfr-tab:hover {
+  color: var(--dvfr-accent);
+}
+
+.dvfr-tab.is-on {
+  color: var(--dvfr-ink);
+  border-bottom-color: var(--dvfr-accent);
+}
+
+.dvfr-tab:focus-visible {
+  outline: 2px solid var(--dvfr-accent);
+  outline-offset: -2px;
+}
+
+.dvfr-tab-letter {
+  font-weight: 650;
+  font-size: 1rem;
+}
+
+.dvfr-tab.is-on .dvfr-tab-name {
+  color: var(--dvfr-ink);
+}
+
+.dvfr-tab-score {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--dvfr-muted);
+  border: 1px solid var(--dvfr-line);
+  border-radius: 3px;
+  padding: 0 0.3rem;
+}
+
+.dvfr-tab.is-on .dvfr-tab-score {
+  border-color: var(--dvfr-accent);
+  color: var(--dvfr-accent-dark);
+}
+
+@media (max-width: 620px) {
+  /* Give the phone back some screen: the pinned block is smaller at every
+     size rather than resizing itself as it sticks. */
+  .dvfr-scorebar {
+    padding: 0.55rem 0.7rem 0.6rem;
+  }
+
+  .dvfr-scorebar-force {
+    margin: 0.3rem 0 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .dvfr-tab-name {
+    display: none;
+  }
+
+  .dvfr-tab-name-solo {
+    display: inline;
+  }
+
+  .dvfr-tabs {
+    gap: 0;
+  }
+
+  .dvfr-tab {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 0.7rem 0.35rem 0.5rem;
+  }
+}
+
+.dvfr-panel:focus-visible {
+  outline: 2px solid var(--dvfr-accent);
+  outline-offset: 4px;
+}
+
+.dvfr-block {
+  margin: 2.5rem 0 0;
+}
+
+.dvfr-block h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+}
+
+/* ----------------------------------------------------------------- panels */
 
 .dvfr-privacy {
   margin: 0 0 2rem;
@@ -169,19 +401,9 @@ h1, h2, h3, h4, h5 {
   font-size: 0.92rem;
 }
 
-.dvfr-step {
-  margin: 0 0 3.25rem;
-  scroll-margin-top: 1.5rem;
-}
-
-.dvfr-step h2 {
-  margin: 0 0 0.4rem;
-  font-size: 1.5rem;
-}
-
-.dvfr-subhead {
-  margin: 2.5rem 0 0.4rem;
-  font-size: 1.15rem;
+.dvfr-panel {
+  margin: 1.75rem 0 3.25rem;
+  scroll-margin-top: 11rem;
 }
 
 .dvfr-step-help,
@@ -321,6 +543,46 @@ h1, h2, h3, h4, h5 {
 .dvfr-factor-def {
   margin: 0;
   color: var(--dvfr-ink);
+  font-size: 0.95rem;
+}
+
+.dvfr-weak-flag {
+  margin: 0.85rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--dvfr-accent);
+  background: var(--dvfr-wash);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dvfr-weak-flag.is-zero {
+  color: #fff;
+  background: var(--dvfr-accent-dark);
+  border-left-color: var(--dvfr-accent-dark);
+}
+
+.dvfr-plays-inline {
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.1rem 0.4rem;
+  background: var(--dvfr-wash);
+  border: 1px solid var(--dvfr-line);
+}
+
+.dvfr-plays-inline h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dvfr-accent);
+}
+
+.dvfr-plays-inline ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.dvfr-plays-inline li {
+  margin: 0 0 0.45rem;
   font-size: 0.95rem;
 }
 
@@ -808,11 +1070,6 @@ h1, h2, h3, h4, h5 {
 
 /* ------------------------------------------------------------------- plan */
 
-.dvfr-step-plan {
-  border-top: 1px solid var(--dvfr-line);
-  padding-top: 2rem;
-}
-
 .dvfr-plan {
   border: 1px solid var(--dvfr-line);
   background: var(--dvfr-paper);
@@ -1049,19 +1306,20 @@ h1, h2, h3, h4, h5 {
     background: #fff;
   }
 
+  /* Print the plan whichever tab is open, and nothing else. */
   .dvfr-lede,
-  .dvfr-rail,
+  .dvfr-change,
+  .dvfr-sticky,
   .dvfr-privacy,
   .dvfr-repo,
   .dvfr-no-print,
-  .dvfr-step:not(.dvfr-step-plan) {
+  .dvfr-panel {
     display: none !important;
   }
 
-  .dvfr-shell {
-    display: block;
-    padding: 0;
-    max-width: none;
+  .dvfr-panel-export,
+  .dvfr-panel-export[hidden] {
+    display: block !important;
   }
 
   .dvfr-app {
@@ -1070,17 +1328,11 @@ h1, h2, h3, h4, h5 {
     max-width: none;
   }
 
-  .dvfr-step-plan {
-    border-top: none;
-    padding-top: 0;
+  .dvfr-panel-export .dvfr-block {
     margin: 0;
   }
 
-  .dvfr-step-plan h2 {
-    display: none;
-  }
-
-  .dvfr-step-plan .dvfr-eyebrow {
+  .dvfr-panel-export .dvfr-verdict {
     display: none;
   }
 

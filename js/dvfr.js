@@ -6,6 +6,8 @@
   var STATE_VERSION = 1;
 
   var FACTOR_KEYS = ["d", "v", "f", "r"];
+  var TAB_KEYS = ["d", "v", "f", "r", "coalition", "export"];
+  var TAB_STORE_KEY = "dvfr-tab";
   var INFLUENCE = [
     { key: "high", label: "High influence" },
     { key: "medium", label: "Medium influence" },
@@ -300,10 +302,10 @@
   /* -------------------------------------------------------------- step two */
 
   function renderFactors() {
-    var host = byId("dvfr-factors");
-    clear(host);
-
     content.factors.forEach(function (f) {
+      var host = byId("dvfr-factor-host-" + f.key);
+      clear(host);
+
       var card = el("article", "dvfr-factor dvfr-factor-" + f.key);
       card.id = "dvfr-factor-" + f.key;
 
@@ -313,7 +315,11 @@
       headText.appendChild(el("h3", null, f.name));
       headText.appendChild(el("p", "dvfr-factor-def", f.definition));
       head.appendChild(headText);
+      var flag = el("p", "dvfr-weak-flag");
+      flag.id = "dvfr-weak-" + f.key;
+      flag.hidden = true;
       card.appendChild(head);
+      card.appendChild(flag);
 
       card.appendChild(el("p", "dvfr-factor-help", f.help));
 
@@ -376,6 +382,13 @@
       hint.id = "dvfr-suggestion-" + f.key;
       card.appendChild(hint);
 
+      var plays = el("section", "dvfr-plays dvfr-plays-inline");
+      plays.appendChild(el("h4", null, f.key === "r" ? "How to lower R" : "How to raise " + f.letter));
+      var pul = el("ul");
+      f.plays.forEach(function (p) { pul.appendChild(el("li", null, p)); });
+      plays.appendChild(pul);
+      card.appendChild(plays);
+
       slider.addEventListener("input", function () {
         state.scores[f.key] = clampScore(slider.value);
         state.touched[f.key] = true;
@@ -389,6 +402,175 @@
       host.appendChild(card);
       syncFactor(f.key);
     });
+  }
+
+  // The score has to read the same from every tab, so this strip stays pinned:
+  // the product, the force against R, the verdict, and a bar per factor that
+  // doubles as a jump link to that factor's tab.
+  function renderScoreBar() {
+    var host = byId("dvfr-scorebar");
+    clear(host);
+    var a = analyse();
+    var copy = verdictCopy(a.verdict);
+
+    var head = el("div", "dvfr-scorebar-head");
+    var math = el("p", "dvfr-scorebar-math");
+    math.appendChild(el("span", "dvfr-math-part", "D " + a.s.d));
+    math.appendChild(el("span", "dvfr-math-op", "x"));
+    math.appendChild(el("span", "dvfr-math-part", "V " + a.s.v));
+    math.appendChild(el("span", "dvfr-math-op", "x"));
+    math.appendChild(el("span", "dvfr-math-part", "F " + a.s.f));
+    math.appendChild(el("span", "dvfr-math-op", "="));
+    math.appendChild(el("span", "dvfr-math-part", String(a.product)));
+    head.appendChild(math);
+
+    var pill = el("p", "dvfr-pill dvfr-verdict-" + a.verdict, copy.label);
+    head.appendChild(pill);
+    host.appendChild(head);
+
+    host.appendChild(el("p", "dvfr-scorebar-force",
+      "Change force " + one(a.force) + " " + (a.force > a.s.r ? "beats" : "does not beat") +
+      " resistance " + a.s.r + "."));
+
+    var bars = el("div", "dvfr-scorebar-bars");
+    content.factors.forEach(function (f) {
+      var item = el("button", "dvfr-minibar" + (f.key === a.weakest && a.verdict !== "zero" ? " is-weak" : "") +
+        (f.key === "r" ? " is-resistance" : ""));
+      item.type = "button";
+      item.setAttribute("aria-label", f.name + " " + a.s[f.key] + " of 10. Open the " + f.name + " tab.");
+      item.appendChild(el("span", "dvfr-minibar-letter", f.letter));
+      var track_ = el("span", "dvfr-minibar-track");
+      var fill = el("span", "dvfr-minibar-fill");
+      fill.style.width = (a.s[f.key] * 10) + "%";
+      track_.appendChild(fill);
+      item.appendChild(track_);
+      item.appendChild(el("span", "dvfr-minibar-value", String(a.s[f.key])));
+      item.addEventListener("click", function () { showTab(f.key, true); });
+      bars.appendChild(item);
+    });
+    host.appendChild(bars);
+
+    FACTOR_KEYS.forEach(function (k) {
+      var badge = byId("dvfr-tabscore-" + k);
+      if (badge) badge.textContent = String(a.s[k]);
+      var flagNode = byId("dvfr-weak-" + k);
+      if (!flagNode) return;
+      if (a.verdict === "zero" && a.s[k] === 0 && k !== "r") {
+        flagNode.hidden = false;
+        flagNode.className = "dvfr-weak-flag is-zero";
+        flagNode.textContent = "At zero. D, V and F multiply, so this alone stops the change.";
+      } else if (k === a.weakest && k !== "r" && a.verdict !== "zero") {
+        flagNode.hidden = false;
+        flagNode.className = "dvfr-weak-flag";
+        flagNode.textContent = "Weakest of the three. This is the one to work on.";
+      } else if (k === "r" && a.s.r >= a.force && a.s.r > 0) {
+        flagNode.hidden = false;
+        flagNode.className = "dvfr-weak-flag";
+        flagNode.textContent = "Resistance is beating the change force. Lower it or raise the rest.";
+      } else {
+        flagNode.hidden = true;
+      }
+    });
+
+    var coalitionBadge = byId("dvfr-tabscore-coalition");
+    if (coalitionBadge) {
+      coalitionBadge.textContent = coalitionCount() + "/" + content.coalition.target;
+    }
+  }
+
+  /* ------------------------------------------------------------------ tabs */
+
+  function validTab(key) {
+    return TAB_KEYS.indexOf(key) === -1 ? "d" : key;
+  }
+
+  function storedTab() {
+    var fromHash = String(window.location.hash || "").replace(/^#dvfr-panel-/, "");
+    if (TAB_KEYS.indexOf(fromHash) !== -1) return fromHash;
+    try {
+      return validTab(sessionStorage.getItem(TAB_STORE_KEY));
+    } catch (e) {
+      return "d";
+    }
+  }
+
+  function showTab(key, focusPanel) {
+    key = validTab(key);
+    TAB_KEYS.forEach(function (k) {
+      var tab = byId("dvfr-tab-" + k);
+      var panel = byId("dvfr-panel-" + k);
+      var on = k === key;
+      if (tab) {
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.tabIndex = on ? 0 : -1;
+        if (on) tab.classList.add("is-on");
+        else tab.classList.remove("is-on");
+      }
+      if (panel) panel.hidden = !on;
+    });
+    try {
+      sessionStorage.setItem(TAB_STORE_KEY, key);
+    } catch (e) {}
+    // Keep the address bar on the open tab so a reload or a shared link lands
+    // back here. replaceState throws in sandboxed frames, hence the guard.
+    try {
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", "#dvfr-panel-" + key);
+      }
+    } catch (e) {}
+    if (focusPanel) {
+      var panel = byId("dvfr-panel-" + key);
+      if (panel) {
+        panel.focus({ preventScroll: true });
+        var tablist = byId("dvfr-tablist");
+        if (tablist && tablist.getBoundingClientRect().top < 0) {
+          tablist.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+    track("dvfr_tab", { dvfr_tab: key });
+  }
+
+  function bindSticky() {
+    var sentinel = byId("dvfr-sticky-sentinel");
+    var bar = byId("dvfr-sticky");
+    if (!sentinel || !bar || typeof IntersectionObserver !== "function") return;
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) bar.classList.remove("is-stuck");
+      else bar.classList.add("is-stuck");
+    }).observe(sentinel);
+  }
+
+  function bindTabs() {
+    var tablist = byId("dvfr-tablist");
+    TAB_KEYS.forEach(function (k) {
+      var tab = byId("dvfr-tab-" + k);
+      if (!tab) return;
+      tab.addEventListener("click", function () { showTab(k, true); });
+    });
+    tablist.addEventListener("keydown", function (e) {
+      var current = TAB_KEYS.indexOf(storedTab());
+      var next = null;
+      if (e.key === "ArrowRight") next = (current + 1) % TAB_KEYS.length;
+      else if (e.key === "ArrowLeft") next = (current - 1 + TAB_KEYS.length) % TAB_KEYS.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = TAB_KEYS.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      showTab(TAB_KEYS[next]);
+      byId("dvfr-tab-" + TAB_KEYS[next]).focus();
+    });
+    window.addEventListener("hashchange", function () {
+      var fromHash = String(window.location.hash || "").replace(/^#dvfr-panel-/, "");
+      if (TAB_KEYS.indexOf(fromHash) !== -1) showTab(fromHash);
+    });
+    var jumps = document.querySelectorAll("[data-dvfr-tab]");
+    for (var i = 0; i < jumps.length; i++) {
+      jumps[i].addEventListener("click", function (e) {
+        e.preventDefault();
+        showTab(this.getAttribute("data-dvfr-tab"), true);
+      });
+    }
   }
 
   function anchorFor(f, score) {
@@ -1201,38 +1383,10 @@
     });
   }
 
-  /* ------------------------------------------------------------------ rail */
-
-  function renderRail() {
-    var rail = byId("dvfr-rail");
-    clear(rail);
-    var list = el("ol", "dvfr-rail-list");
-    var steps = document.querySelectorAll(".dvfr-step");
-    for (var i = 0; i < steps.length; i++) {
-      var section = steps[i];
-      var heading = section.querySelector("h2");
-      if (!heading) continue;
-      var li = el("li");
-      var link = el("a", "dvfr-rail-link", heading.textContent);
-      link.href = "#" + section.id;
-      link.addEventListener("click", function (e) {
-        var target = document.querySelector(this.getAttribute("href"));
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        var focusable = target.querySelector("input, textarea, select, button");
-        if (focusable) focusable.focus({ preventScroll: true });
-        track("dvfr_step", { dvfr_step: target.id });
-      });
-      li.appendChild(link);
-      list.appendChild(li);
-    }
-    rail.appendChild(list);
-  }
-
   /* ---------------------------------------------------------------- render */
 
   function renderDerived() {
+    renderScoreBar();
     renderVerdict();
     renderPeopleReadout();
     renderCoalitionReadout();
@@ -1303,8 +1457,10 @@
     });
 
     bindExports();
+    bindTabs();
+    bindSticky();
     renderAll();
-    renderRail();
+    showTab(storedTab());
   }
 
   function focusLast(hostId) {

@@ -13,8 +13,24 @@ Intended home: [https://kindel.com/dvfr/](https://kindel.com/dvfr/).
 
 | Page | What it is |
 | --- | --- |
-| `index.html` | The workbook. Seven steps, then the plan. |
+| `index.html` | The workbook. Six tabs under a score that is always on screen. |
 | `guide.html` | The model itself, for anyone arriving cold. |
+
+The workbook is tabbed so the score never leaves the screen. The change's name sits above the
+tabs, the score strip below it stays pinned while you scroll, and each tab holds the work that
+belongs to one term of the formula:
+
+| Tab | What is in it |
+| --- | --- |
+| D | Dissatisfaction: checks, score, and how to raise it |
+| V | Vision: checks, score, how to raise it, and the vision drafting prompts |
+| F | First steps: checks, score, how to raise it, the dated first steps, and the early wins |
+| R | Resistance: checks, score, how to lower it, and the four stakeholder buckets |
+| Coalition | The named leaders, counted against the bar of four |
+| Export | The verdict in full, the plan, and copy / download / print / JSON |
+
+Each tab is deep-linkable (`#dvfr-panel-r`), the open tab is kept in the address bar so a reload
+returns to it, and the four bars in the score strip double as jump links.
 
 Everything a leader types stays in `localStorage` in their own browser. There is no account, no
 backend, and nothing is uploaded. That matters here: people write candid things about named

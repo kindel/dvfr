@@ -18,73 +18,129 @@
       </p>
     </header>
 
-    <div class="dvfr-shell">
-      <nav class="dvfr-rail" id="dvfr-rail" aria-label="Workbook steps"></nav>
+    <div class="dvfr-app" id="dvfr-app">
+      <p class="dvfr-privacy" id="dvfr-privacy">
+        Everything you type stays in this browser. Nothing is uploaded, and there is no account.
+        You are going to write candid things about named people, so keep it that way: use
+        <a href="#dvfr-panel-export" data-dvfr-tab="export">export</a> if you need a copy somewhere
+        else.
+      </p>
 
-      <div class="dvfr-app" id="dvfr-app">
-        <p class="dvfr-privacy" id="dvfr-privacy">
-          Everything you type stays in this browser. Nothing is uploaded, and there is no account.
-          You are going to write candid things about named people, so keep it that way: use
-          <a href="#dvfr-step-plan">export</a> if you need a copy somewhere else.
-        </p>
-
-        <section class="dvfr-step" id="dvfr-step-change" aria-labelledby="dvfr-h-change">
-          <p class="dvfr-eyebrow">Step 1</p>
-          <h2 id="dvfr-h-change">Name the change</h2>
-          <p class="dvfr-step-help">Be specific enough that someone could disagree with it.</p>
-
-          <div class="dvfr-field">
-            <label for="dvfr-title">What are you calling this change?</label>
-            <input id="dvfr-title" type="text" autocomplete="off"
-              placeholder="Weekly releases instead of quarterly">
-          </div>
-
-          <div class="dvfr-field">
-            <label for="dvfr-sentence">The change I am trying to drive, in one sentence</label>
-            <textarea id="dvfr-sentence" rows="2"
-              placeholder="We ship to customers every week, with automated tests instead of a manual test pass."></textarea>
-          </div>
-
-          <div class="dvfr-grid-2">
+      <section class="dvfr-change" aria-labelledby="dvfr-h-change">
+        <h2 class="dvfr-visually-hidden" id="dvfr-h-change">Name the change</h2>
+        <div class="dvfr-field dvfr-field-title">
+          <label for="dvfr-title">The change you are driving</label>
+          <input id="dvfr-title" type="text" autocomplete="off"
+            placeholder="Weekly releases instead of quarterly">
+        </div>
+        <details class="dvfr-change-more">
+          <summary>Say it in a sentence, name who has to change, set the date</summary>
+          <div class="dvfr-change-more-body">
             <div class="dvfr-field">
-              <label for="dvfr-who">Who has to change for this to work?</label>
-              <input id="dvfr-who" type="text" autocomplete="off"
-                placeholder="Engineering, QA, release management">
+              <label for="dvfr-sentence">The change I am trying to drive, in one sentence</label>
+              <textarea id="dvfr-sentence" rows="2"
+                placeholder="We ship to customers every week, with automated tests instead of a manual test pass."></textarea>
             </div>
-            <div class="dvfr-field">
-              <label for="dvfr-by">True by when?</label>
-              <input id="dvfr-by" type="date">
+            <div class="dvfr-grid-2">
+              <div class="dvfr-field">
+                <label for="dvfr-who">Who has to change for this to work?</label>
+                <input id="dvfr-who" type="text" autocomplete="off"
+                  placeholder="Engineering, QA, release management">
+              </div>
+              <div class="dvfr-field">
+                <label for="dvfr-by">True by when?</label>
+                <input id="dvfr-by" type="date">
+              </div>
             </div>
           </div>
-        </section>
+        </details>
+      </section>
 
-        <section class="dvfr-step" id="dvfr-step-score" aria-labelledby="dvfr-h-score">
-          <p class="dvfr-eyebrow">Step 2</p>
-          <h2 id="dvfr-h-score">Score the four factors</h2>
-          <p class="dvfr-step-help">Check what is actually true today. The checks suggest a score;
-            the slider is yours to overrule. Score the organization, not your hopes for it.</p>
-          <div id="dvfr-factors" class="dvfr-factors">
-            <p class="dvfr-empty">Loading the model&hellip;</p>
-          </div>
-        </section>
+      <div id="dvfr-sticky-sentinel" aria-hidden="true"></div>
+      <div class="dvfr-sticky" id="dvfr-sticky">
+        <div class="dvfr-scorebar" id="dvfr-scorebar" aria-live="polite"
+          aria-label="Current score"></div>
 
-        <section class="dvfr-step" id="dvfr-step-verdict" aria-labelledby="dvfr-h-verdict">
-          <p class="dvfr-eyebrow">Step 3</p>
-          <h2 id="dvfr-h-verdict">Read the verdict</h2>
-          <div id="dvfr-verdict" class="dvfr-verdict" aria-live="polite"></div>
-        </section>
+        <div class="dvfr-tabs" role="tablist" aria-label="Workbook sections" id="dvfr-tablist">
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-d" id="dvfr-tab-d"
+          aria-controls="dvfr-panel-d" aria-selected="true">
+          <span class="dvfr-tab-letter">D</span>
+          <span class="dvfr-tab-name">Dissatisfaction</span>
+          <span class="dvfr-tab-score" id="dvfr-tabscore-d">0</span>
+        </button>
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-v" id="dvfr-tab-v"
+          aria-controls="dvfr-panel-v" aria-selected="false" tabindex="-1">
+          <span class="dvfr-tab-letter">V</span>
+          <span class="dvfr-tab-name">Vision</span>
+          <span class="dvfr-tab-score" id="dvfr-tabscore-v">0</span>
+        </button>
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-f" id="dvfr-tab-f"
+          aria-controls="dvfr-panel-f" aria-selected="false" tabindex="-1">
+          <span class="dvfr-tab-letter">F</span>
+          <span class="dvfr-tab-name">First steps</span>
+          <span class="dvfr-tab-score" id="dvfr-tabscore-f">0</span>
+        </button>
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-r" id="dvfr-tab-r"
+          aria-controls="dvfr-panel-r" aria-selected="false" tabindex="-1">
+          <span class="dvfr-tab-letter">R</span>
+          <span class="dvfr-tab-name">Resistance</span>
+          <span class="dvfr-tab-score" id="dvfr-tabscore-r">0</span>
+        </button>
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-coalition" id="dvfr-tab-coalition"
+          aria-controls="dvfr-panel-coalition" aria-selected="false" tabindex="-1">
+          <span class="dvfr-tab-name dvfr-tab-name-solo">Coalition</span>
+          <span class="dvfr-tab-score" id="dvfr-tabscore-coalition">0/4</span>
+        </button>
+        <button type="button" role="tab" class="dvfr-tab dvfr-tab-export" id="dvfr-tab-export"
+          aria-controls="dvfr-panel-export" aria-selected="false" tabindex="-1">
+          <span class="dvfr-tab-name dvfr-tab-name-solo">Export</span>
+        </button>
+        </div>
+      </div>
 
-        <section class="dvfr-step" id="dvfr-step-vision" aria-labelledby="dvfr-h-vision">
-          <p class="dvfr-eyebrow">Step 4</p>
-          <h2 id="dvfr-h-vision">Write the vision down</h2>
+      <section role="tabpanel" class="dvfr-panel" id="dvfr-panel-d" aria-labelledby="dvfr-tab-d"
+        tabindex="0">
+        <div class="dvfr-factor-host" id="dvfr-factor-host-d"></div>
+      </section>
+
+      <section role="tabpanel" class="dvfr-panel" id="dvfr-panel-v" aria-labelledby="dvfr-tab-v"
+        tabindex="0" hidden>
+        <div class="dvfr-factor-host" id="dvfr-factor-host-v"></div>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-vision">
+          <h3 id="dvfr-h-vision">Write the vision down</h3>
           <p class="dvfr-step-help">An unwritten vision cannot be shared, and a vision that is not
             shared is not a vision.</p>
           <div id="dvfr-vision"></div>
         </section>
+      </section>
 
-        <section class="dvfr-step" id="dvfr-step-people" aria-labelledby="dvfr-h-people">
-          <p class="dvfr-eyebrow">Step 5</p>
-          <h2 id="dvfr-h-people">Sort the people into four buckets</h2>
+      <section role="tabpanel" class="dvfr-panel" id="dvfr-panel-f" aria-labelledby="dvfr-tab-f"
+        tabindex="0" hidden>
+        <div class="dvfr-factor-host" id="dvfr-factor-host-f"></div>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-steps">
+          <h3 id="dvfr-h-steps">Commit to first steps</h3>
+          <p class="dvfr-step-help" id="dvfr-steps-help"></p>
+          <div id="dvfr-steps" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-step">Add a first step</button>
+          </p>
+          <div id="dvfr-steps-read" class="dvfr-readout" aria-live="polite"></div>
+        </section>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-wins">
+          <h3 id="dvfr-h-wins">Early wins to celebrate in public</h3>
+          <p class="dvfr-step-help" id="dvfr-wins-help"></p>
+          <div id="dvfr-wins" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-win">Add an early win</button>
+          </p>
+        </section>
+      </section>
+
+      <section role="tabpanel" class="dvfr-panel" id="dvfr-panel-r" aria-labelledby="dvfr-tab-r"
+        tabindex="0" hidden>
+        <div class="dvfr-factor-host" id="dvfr-factor-host-r"></div>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-people">
+          <h3 id="dvfr-h-people">Sort the people into four buckets</h3>
           <p class="dvfr-step-help">Name real people. Then treat the resistors as customers: ask
             what they are afraid of losing, and write down what it changes in your plan.</p>
           <div id="dvfr-bucket-legend" class="dvfr-legend"></div>
@@ -94,39 +150,29 @@
           </p>
           <div id="dvfr-people-read" class="dvfr-readout" aria-live="polite"></div>
         </section>
+      </section>
 
-        <section class="dvfr-step" id="dvfr-step-coalition" aria-labelledby="dvfr-h-coalition">
-          <p class="dvfr-eyebrow">Step 6</p>
-          <h2 id="dvfr-h-coalition">Build the coalition</h2>
+      <section role="tabpanel" class="dvfr-panel" id="dvfr-panel-coalition"
+        aria-labelledby="dvfr-tab-coalition" tabindex="0" hidden>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-coalition">
+          <h3 id="dvfr-h-coalition">Build the coalition</h3>
           <p class="dvfr-step-help" id="dvfr-coalition-rule"></p>
+          <div id="dvfr-coalition-read" class="dvfr-readout" aria-live="polite"></div>
           <div id="dvfr-coalition" class="dvfr-cards"></div>
           <p class="dvfr-actions">
             <button type="button" class="dvfr-btn" id="dvfr-add-ally">Add a leader</button>
           </p>
-          <div id="dvfr-coalition-read" class="dvfr-readout" aria-live="polite"></div>
         </section>
+      </section>
 
-        <section class="dvfr-step" id="dvfr-step-steps" aria-labelledby="dvfr-h-steps">
-          <p class="dvfr-eyebrow">Step 7</p>
-          <h2 id="dvfr-h-steps">Commit to first steps</h2>
-          <p class="dvfr-step-help" id="dvfr-steps-help"></p>
-          <div id="dvfr-steps" class="dvfr-cards"></div>
-          <p class="dvfr-actions">
-            <button type="button" class="dvfr-btn" id="dvfr-add-step">Add a first step</button>
-          </p>
-          <div id="dvfr-steps-read" class="dvfr-readout" aria-live="polite"></div>
-
-          <h3 class="dvfr-subhead">Early wins to celebrate in public</h3>
-          <p class="dvfr-step-help" id="dvfr-wins-help"></p>
-          <div id="dvfr-wins" class="dvfr-cards"></div>
-          <p class="dvfr-actions">
-            <button type="button" class="dvfr-btn" id="dvfr-add-win">Add an early win</button>
-          </p>
+      <section role="tabpanel" class="dvfr-panel dvfr-panel-export" id="dvfr-panel-export"
+        aria-labelledby="dvfr-tab-export" tabindex="0" hidden>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-verdict">
+          <h3 id="dvfr-h-verdict" class="dvfr-no-print">The verdict in full</h3>
+          <div id="dvfr-verdict" class="dvfr-verdict"></div>
         </section>
-
-        <section class="dvfr-step dvfr-step-plan" id="dvfr-step-plan" aria-labelledby="dvfr-h-plan">
-          <p class="dvfr-eyebrow">The output</p>
-          <h2 id="dvfr-h-plan">Your change plan</h2>
+        <section class="dvfr-block" aria-labelledby="dvfr-h-plan">
+          <h3 id="dvfr-h-plan" class="dvfr-no-print">Your change plan</h3>
           <p class="dvfr-step-help dvfr-no-print">One page. Take it to your next one-on-one, your
             staff meeting, or office hours.</p>
           <p class="dvfr-actions dvfr-no-print">
@@ -141,7 +187,7 @@
           <p class="dvfr-status dvfr-no-print" id="dvfr-status" role="status"></p>
           <div id="dvfr-plan" class="dvfr-plan"></div>
         </section>
-      </div>
+      </section>
     </div>
 
     <p class="dvfr-repo dvfr-no-print">
