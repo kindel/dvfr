@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Change workbook: D x V x F &gt; R</title>
+  <link rel="stylesheet" href="css/dvfr.css">
+</head>
+<body>
+  <main class="dvfr-page">
+    <header class="dvfr-lede">
+      <p class="dvfr-eyebrow">Leading change</p>
+      <h1>D x V x F &gt; R</h1>
+      <p>Dissatisfaction times vision times first steps has to beat resistance. Work your change
+        through it, and find out which factor is actually stopping you.</p>
+      <p class="dvfr-lede-links">
+        <a href="guide.html" id="dvfr-guide-link">Read the model first</a>
+      </p>
+    </header>
+
+    <div class="dvfr-shell">
+      <nav class="dvfr-rail" id="dvfr-rail" aria-label="Workbook steps"></nav>
+
+      <div class="dvfr-app" id="dvfr-app">
+        <p class="dvfr-privacy" id="dvfr-privacy">
+          Everything you type stays in this browser. Nothing is uploaded, and there is no account.
+          You are going to write candid things about named people, so keep it that way: use
+          <a href="#dvfr-step-plan">export</a> if you need a copy somewhere else.
+        </p>
+
+        <section class="dvfr-step" id="dvfr-step-change" aria-labelledby="dvfr-h-change">
+          <p class="dvfr-eyebrow">Step 1</p>
+          <h2 id="dvfr-h-change">Name the change</h2>
+          <p class="dvfr-step-help">Be specific enough that someone could disagree with it.</p>
+
+          <div class="dvfr-field">
+            <label for="dvfr-title">What are you calling this change?</label>
+            <input id="dvfr-title" type="text" autocomplete="off"
+              placeholder="Weekly releases instead of quarterly">
+          </div>
+
+          <div class="dvfr-field">
+            <label for="dvfr-sentence">The change I am trying to drive, in one sentence</label>
+            <textarea id="dvfr-sentence" rows="2"
+              placeholder="We ship to customers every week, with automated tests instead of a manual test pass."></textarea>
+          </div>
+
+          <div class="dvfr-grid-2">
+            <div class="dvfr-field">
+              <label for="dvfr-who">Who has to change for this to work?</label>
+              <input id="dvfr-who" type="text" autocomplete="off"
+                placeholder="Engineering, QA, release management">
+            </div>
+            <div class="dvfr-field">
+              <label for="dvfr-by">True by when?</label>
+              <input id="dvfr-by" type="date">
+            </div>
+          </div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-score" aria-labelledby="dvfr-h-score">
+          <p class="dvfr-eyebrow">Step 2</p>
+          <h2 id="dvfr-h-score">Score the four factors</h2>
+          <p class="dvfr-step-help">Check what is actually true today. The checks suggest a score;
+            the slider is yours to overrule. Score the organization, not your hopes for it.</p>
+          <div id="dvfr-factors" class="dvfr-factors">
+            <p class="dvfr-empty">Loading the model&hellip;</p>
+          </div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-verdict" aria-labelledby="dvfr-h-verdict">
+          <p class="dvfr-eyebrow">Step 3</p>
+          <h2 id="dvfr-h-verdict">Read the verdict</h2>
+          <div id="dvfr-verdict" class="dvfr-verdict" aria-live="polite"></div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-vision" aria-labelledby="dvfr-h-vision">
+          <p class="dvfr-eyebrow">Step 4</p>
+          <h2 id="dvfr-h-vision">Write the vision down</h2>
+          <p class="dvfr-step-help">An unwritten vision cannot be shared, and a vision that is not
+            shared is not a vision.</p>
+          <div id="dvfr-vision"></div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-people" aria-labelledby="dvfr-h-people">
+          <p class="dvfr-eyebrow">Step 5</p>
+          <h2 id="dvfr-h-people">Sort the people into four buckets</h2>
+          <p class="dvfr-step-help">Name real people. Then treat the resistors as customers: ask
+            what they are afraid of losing, and write down what it changes in your plan.</p>
+          <div id="dvfr-bucket-legend" class="dvfr-legend"></div>
+          <div id="dvfr-people" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-person">Add a person</button>
+          </p>
+          <div id="dvfr-people-read" class="dvfr-readout" aria-live="polite"></div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-coalition" aria-labelledby="dvfr-h-coalition">
+          <p class="dvfr-eyebrow">Step 6</p>
+          <h2 id="dvfr-h-coalition">Build the coalition</h2>
+          <p class="dvfr-step-help" id="dvfr-coalition-rule"></p>
+          <div id="dvfr-coalition" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-ally">Add a leader</button>
+          </p>
+          <div id="dvfr-coalition-read" class="dvfr-readout" aria-live="polite"></div>
+        </section>
+
+        <section class="dvfr-step" id="dvfr-step-steps" aria-labelledby="dvfr-h-steps">
+          <p class="dvfr-eyebrow">Step 7</p>
+          <h2 id="dvfr-h-steps">Commit to first steps</h2>
+          <p class="dvfr-step-help" id="dvfr-steps-help"></p>
+          <div id="dvfr-steps" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-step">Add a first step</button>
+          </p>
+          <div id="dvfr-steps-read" class="dvfr-readout" aria-live="polite"></div>
+
+          <h3 class="dvfr-subhead">Early wins to celebrate in public</h3>
+          <p class="dvfr-step-help" id="dvfr-wins-help"></p>
+          <div id="dvfr-wins" class="dvfr-cards"></div>
+          <p class="dvfr-actions">
+            <button type="button" class="dvfr-btn" id="dvfr-add-win">Add an early win</button>
+          </p>
+        </section>
+
+        <section class="dvfr-step dvfr-step-plan" id="dvfr-step-plan" aria-labelledby="dvfr-h-plan">
+          <p class="dvfr-eyebrow">The output</p>
+          <h2 id="dvfr-h-plan">Your change plan</h2>
+          <p class="dvfr-step-help dvfr-no-print">One page. Take it to your next one-on-one, your
+            staff meeting, or office hours.</p>
+          <p class="dvfr-actions dvfr-no-print">
+            <button type="button" class="dvfr-btn" id="dvfr-copy">Copy as Markdown</button>
+            <button type="button" class="dvfr-btn" id="dvfr-download">Download .md</button>
+            <button type="button" class="dvfr-btn" id="dvfr-print">Print / Save as PDF</button>
+            <button type="button" class="dvfr-btn" id="dvfr-export">Export JSON</button>
+            <button type="button" class="dvfr-btn" id="dvfr-import">Import JSON</button>
+            <button type="button" class="dvfr-btn dvfr-btn-danger" id="dvfr-reset">Reset</button>
+            <input type="file" id="dvfr-import-file" accept="application/json,.json" hidden>
+          </p>
+          <p class="dvfr-status dvfr-no-print" id="dvfr-status" role="status"></p>
+          <div id="dvfr-plan" class="dvfr-plan"></div>
+        </section>
+      </div>
+    </div>
+
+    <p class="dvfr-repo dvfr-no-print">
+      <a href="https://github.com/kindel/dvfr" target="_blank" rel="noopener">kindel/dvfr on GitHub</a>
+    </p>
+  </main>
+  <script src="js/dvfr.js" defer></script>
+</body>
+</html>

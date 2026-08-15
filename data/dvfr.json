@@ -1,0 +1,268 @@
+{
+  "model": {
+    "name": "D x V x F > R",
+    "tagline": "Dissatisfaction, vision, first steps, and resistance. How change actually moves when influence matters more than title.",
+    "statement": "The combination of Dissatisfaction, Vision, and First steps must be greater than the Resistance to change in order for the change to occur.",
+    "why_multiply": "It multiplies, it does not add. If any one of D, V, or F is zero, the whole left side is zero and the change does not happen, no matter how strong the other two are. A brilliant vision with no first step is a speech. A great plan nobody is unhappy enough to run is a document.",
+    "source": {
+      "title": "How to be a Secret Agent (of Change)",
+      "url": "https://blog.kindel.com/2021/02/03/how-to-be-a-secret-agent-of-change/",
+      "author": "Tig Kindel"
+    }
+  },
+
+  "factors": [
+    {
+      "key": "d",
+      "letter": "D",
+      "name": "Dissatisfaction",
+      "definition": "The level of dissatisfaction with the current situation or state.",
+      "help": "Not your dissatisfaction. Theirs. Score what the people who have to change actually feel, not what you think they should feel.",
+      "anchors": {
+        "0": "Nobody minds how things are. Including the people it is hurting.",
+        "5": "People grumble about it, but nobody has put a cost on it.",
+        "10": "The current state is visibly, expensively unacceptable and people say so out loud."
+      },
+      "checks": [
+        "People other than me can name what the current state costs them.",
+        "The cost shows up in something countable: time, money, attrition, customers lost.",
+        "Someone senior has said out loud that this is not acceptable.",
+        "The pain is felt now, not forecast for some later year."
+      ],
+      "plays": [
+        "Go get the number. Dissatisfaction that only lives in your head scores zero.",
+        "Show the cost in the terms that audience already cares about, not the terms you care about.",
+        "Do not manufacture pain. Find where it already exists and make it visible.",
+        "Put the current state in front of people in a way they cannot look away from: a customer call, a cycle-time chart, the actual queue."
+      ]
+    },
+    {
+      "key": "v",
+      "letter": "V",
+      "name": "Vision",
+      "definition": "A vision of the desired state or of a positive possibility; more than the absence of pain.",
+      "help": "The bar is higher than \"this stops hurting.\" Describe a state people would want even if today were fine.",
+      "anchors": {
+        "0": "No shared picture of the destination. Or the picture is just \"not this.\"",
+        "5": "A picture exists in your head and in a few conversations. It is not written down.",
+        "10": "It is written, it is one page, and people who were not in the room repeat it back correctly."
+      },
+      "checks": [
+        "The vision is written down and fits on one page.",
+        "It describes something worth wanting, not just the end of today's pain.",
+        "I can say it in one sentence, in a hallway, without notes.",
+        "Someone who was not in the room can say it back to me accurately."
+      ],
+      "plays": [
+        "Write it down. One page. Today. An unwritten vision cannot be shared, and a vision that is not shared is not a vision.",
+        "Then share it ruthlessly. Oversaturate. Keep saying it long past the point where you are bored of saying it, because that is roughly when other people start hearing it.",
+        "Raise the bar past \"the pain stops.\" What is the positive possibility?",
+        "Test it: ask someone who was not in the room to repeat it back. What comes back is your actual vision."
+      ]
+    },
+    {
+      "key": "f",
+      "letter": "F",
+      "name": "First Steps",
+      "definition": "The first steps in the direction of the vision; the practicality of the change; or the plan.",
+      "help": "First steps, not the whole roadmap. The question people are silently asking is \"is this actually doable, starting Monday?\"",
+      "anchors": {
+        "0": "No idea what happens Monday.",
+        "5": "There is a plan, but it is big, unowned, or undated.",
+        "10": "The first step is small, named, owned, dated, and already underway."
+      },
+      "checks": [
+        "The first step is small enough to start this week.",
+        "The first step has one named owner.",
+        "The first step has a date.",
+        "Someone other than me believes the plan is practical."
+      ],
+      "plays": [
+        "Pick the step you could start Monday. Give it one owner and one date.",
+        "You do not need perfect dissatisfaction data to begin. Once the vision and the first steps are clear, go.",
+        "Make the first step small enough that arguing about it is boring.",
+        "Publish the plan. A plan nobody can see is not practical, it is private."
+      ]
+    },
+    {
+      "key": "r",
+      "letter": "R",
+      "name": "Resistance",
+      "definition": "Resistance to the change or the cost of changing.",
+      "help": "Resistance is not stupidity or malice. It is usually a rational read of what this change costs somebody. Score it honestly. High is not shameful, it is information.",
+      "anchors": {
+        "0": "Nothing to lose. Nobody has to give anything up.",
+        "5": "Real friction: habits, workload, a few bruised owners.",
+        "10": "The change takes status, budget, headcount, or identity away from people who can stop it."
+      },
+      "checks": [
+        "This costs someone status, headcount, budget, or a favorite project.",
+        "People have to learn something new to keep being good at their job.",
+        "A previous version of this was tried here and failed.",
+        "The people who have to change did not ask for the change."
+      ],
+      "plays": [
+        "Treat the resistors as customers. Go ask what they are afraid of losing, then put the answer in the plan. Their feedback usually makes the plan better.",
+        "Work the Non-Supportive bucket first. That is where most of the resistance lives, and most of it is movable.",
+        "Get four senior leaders in complete support before you push harder. Pushing without a coalition just spends your credibility.",
+        "Celebrate early wins in public, and name the people who did them. Nothing lowers resistance like watching someone get recognized for going first."
+      ]
+    }
+  ],
+
+  "verdicts": [
+    {
+      "key": "zero",
+      "label": "Dead stop",
+      "headline": "One of your factors is at zero, so the whole left side is zero.",
+      "body": "This is the part of the model that is not a metaphor. D, V, and F multiply. Any one of them at zero means no amount of the other two moves this. Fix the zero before you spend another day on anything else."
+    },
+    {
+      "key": "stalled",
+      "label": "Stalled",
+      "headline": "Resistance is winning. This change is not moving yet.",
+      "body": "Do not push harder on the side that is already strong. Find the weakest of D, V, and F and work that, or go lower the resistance by talking to the people generating it."
+    },
+    {
+      "key": "fragile",
+      "label": "Fragile",
+      "headline": "You are barely ahead. One bad week reverses this.",
+      "body": "Change at this margin dies quietly when a reorg, a quarter-end, or one loud skeptic shows up. Build margin now: strengthen your weakest factor and go get the coalition to four."
+    },
+    {
+      "key": "moving",
+      "label": "Moving",
+      "headline": "You have real margin over the resistance.",
+      "body": "Keep the pressure on the vision, keep shipping the first steps, and start celebrating early wins in public so the momentum belongs to the organization instead of to you."
+    },
+    {
+      "key": "unstoppable",
+      "label": "Unstoppable",
+      "headline": "The force behind this change dwarfs the resistance.",
+      "body": "Two risks now. First, check that you scored honestly and not hopefully. Second, make sure the change outlives your attention: named owners, dates, and enough people repeating the vision that it no longer needs you in the room."
+    }
+  ],
+
+  "buckets": [
+    {
+      "key": "non_supportive",
+      "name": "Non-Supportive",
+      "definition": "These folks say they dislike soccer.",
+      "guidance": "Most of your resistance lives here, and most of it is movable. This bucket deserves the most attention. Go ask what they are afraid of losing and put the answer in your plan.",
+      "priority": 1
+    },
+    {
+      "key": "reluctant",
+      "name": "Reluctant",
+      "definition": "These folks enjoy soccer and will go to a match if asked but would normally rather watch baseball.",
+      "guidance": "Cheap to convert. They mostly need to be asked directly and given one specific thing to do.",
+      "priority": 2
+    },
+    {
+      "key": "supporter",
+      "name": "Supporter",
+      "definition": "These are your season ticket holders who eagerly join the March to the Match.",
+      "guidance": "Already convinced. Stop persuading them. Give them work, and let them carry the message to the other buckets.",
+      "priority": 3
+    },
+    {
+      "key": "opposed",
+      "name": "Opposed",
+      "definition": "These people sit in the visiting team's supporters section.",
+      "guidance": "You are unlikely to convert them. Keep them informed so they never get to be surprised, and spend your hours elsewhere.",
+      "priority": 4
+    }
+  ],
+
+  "bucket_warnings": {
+    "empty": "No stakeholders yet. Change happens to people. Name them.",
+    "opposed_heavy": "You have logged more Opposed than Non-Supportive. That usually means you are spending your week in the visiting supporters' section. Move your attention.",
+    "no_non_supportive": "You have not logged a single Non-Supportive person. Either you have an unusually easy change, or you have not gone and asked. The Non-Supportive bucket is where the movable resistance lives.",
+    "no_concerns": "Some resistors have no recorded concern. Treat them as customers: go ask what they are afraid of losing, and write down what it changes in the plan.",
+    "all_supporters": "Everyone you have listed is a Supporter. You have mapped your friends, not your change."
+  },
+
+  "coalition": {
+    "target": 4,
+    "rule": "You need at least four senior leaders in complete support. Not four who nodded in a meeting. Four who will say it out loud when you are not in the room.",
+    "levels_note": "Then build past the senior layer. The best coalition members are spread across levels of the organization and are the people who already demonstrate adaptability and ownership.",
+    "states": [
+      { "key": "not_asked", "label": "Not asked", "counts": false },
+      { "key": "asked", "label": "Asked, no answer", "counts": false },
+      { "key": "in", "label": "In", "counts": false },
+      { "key": "all_in", "label": "All in", "counts": true }
+    ],
+    "state_note": "Only \"All in\" counts toward the four. \"In\" is a nod. \"All in\" is someone who will defend this change in a room you are not in.",
+    "short": "Coalition is short. Go get the rest before you push harder; a change pushed without a coalition just spends your credibility.",
+    "met": "Coalition bar met. Now spread it across levels of the organization, not just the top."
+  },
+
+  "vision_prompts": [
+    {
+      "key": "future",
+      "label": "Twelve months from now, this worked. What is true that is not true today?",
+      "help": "Write it in the present tense, the way you would describe a place you are standing in."
+    },
+    {
+      "key": "more_than_pain",
+      "label": "Why would someone want this even if today's pain disappeared on its own?",
+      "help": "This is the bar the model sets: more than the absence of pain. If you cannot answer this, you have a complaint, not a vision."
+    },
+    {
+      "key": "evidence",
+      "label": "How will you know it happened? What will you point at?",
+      "help": "A number, a behavior you would see, or a thing that stops needing to be escalated."
+    },
+    {
+      "key": "one_sentence",
+      "label": "Say it in one sentence, the way you would say it in a hallway.",
+      "help": "If it takes a slide, it will not survive being repeated."
+    },
+    {
+      "key": "repetition",
+      "label": "Where does this get said, and how often?",
+      "help": "Name the actual forums and the actual cadence. Sharing it ruthlessly is a schedule, not an intention."
+    }
+  ],
+
+  "first_steps": {
+    "help": "Three to five steps you could start this week. Every one gets an owner and a date. A step with no date is a wish.",
+    "wins_help": "Early wins get celebrated in public, and the people who did them get named. That is how the change stops being your project and starts being the organization's.",
+    "empty": "No first steps yet. F is zero until something here has an owner and a date.",
+    "undated": "Some steps have no date. Those score as zero in F until they do."
+  },
+
+  "guide": {
+    "intro": "This is the mental model behind the workbook. It is short on purpose.",
+    "sections": [
+      {
+        "title": "The formula",
+        "body": "The combination of Dissatisfaction, Vision, and First steps must be greater than the Resistance to change in order for the change to occur. It multiplies. Any one of D, V, or F at zero makes the whole left side zero, and nothing moves."
+      },
+      {
+        "title": "Treat the resistors as customers",
+        "body": "The instinct is to treat people who resist as opponents to be beaten. Do the opposite. Go understand what they are worried about and fold their feedback into the plan. Resistance is a source of information about what your plan is missing, and it is usually cheaper to fix the plan than to fight the person."
+      },
+      {
+        "title": "Sort people into four buckets",
+        "body": "Supporters, Reluctant, Non-Supportive, and Opposed. Work them in this order: Non-Supportive first, because that is where most of the resistance lives and most of it is movable. Then Reluctant, who are cheap to convert. Then Supporters, who need work and not persuasion. Opposed last: you are unlikely to convert them, so keep them informed and spend your time elsewhere."
+      },
+      {
+        "title": "Build a coalition",
+        "body": "You need at least four senior leaders in complete support. Beyond them, recruit across the levels of the organization, choosing the people who already show adaptability and ownership."
+      },
+      {
+        "title": "Write it down, then be ruthless about repeating it",
+        "body": "Write the vision down. Then oversaturate the organization with it, consistently and to the point of monotony. You will get bored of saying it a long time before people get tired of hearing it."
+      },
+      {
+        "title": "Celebrate early wins in public",
+        "body": "Find the small victories and the people who moved first, and recognize them where everyone can see. It converts the Reluctant faster than any argument you can make."
+      },
+      {
+        "title": "Start before you are ready",
+        "body": "Once the vision and the first steps are clear, begin. Do not wait for a perfect measurement of dissatisfaction. Motion generates the information you are waiting for."
+      }
+    ]
+  }
+}
