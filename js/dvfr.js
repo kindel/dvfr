@@ -1520,23 +1520,34 @@
     if (field) field.focus();
   }
 
+  // Nothing below works without the content, so the message goes at the top of
+  // the app where it is visible whichever tab is open.
+  function showError(message) {
+    var app = byId("dvfr-app") || document.querySelector(".dvfr-page");
+    if (!app) return;
+    app.insertBefore(el("p", "dvfr-empty dvfr-load-error", message), app.firstChild);
+  }
+
   fetch(contentUrl)
     .then(function (r) {
       if (!r.ok) throw new Error("content missing");
       return r.json();
     })
-    .then(function (data) {
-      content = data;
-      boot();
-    })
-    .catch(function () {
-      // Nothing below this point works without the content, so the message goes
-      // at the top of the app where it is visible whichever tab is open.
-      var app = byId("dvfr-app");
-      if (!app) return;
-      var note = el("p", "dvfr-empty dvfr-load-error",
-        "Could not load the model content. Reload the page, and if it keeps failing " +
-        "check that data/dvfr.json is being served.");
-      app.insertBefore(note, app.firstChild);
-    });
+    .then(
+      function (data) {
+        content = data;
+        // Deliberately outside the fetch handler: a bug in boot() must report
+        // itself as a bug, not as a download that failed.
+        try {
+          boot();
+        } catch (e) {
+          showError("The model content loaded but the workbook could not start.");
+          throw e;
+        }
+      },
+      function () {
+        showError("Could not load the model content. Reload the page, and if it keeps failing " +
+          "check that data/dvfr.json is being served.");
+      }
+    );
 })();

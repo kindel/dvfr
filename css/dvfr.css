@@ -74,9 +74,11 @@ h1, h2, h3, h4, h5 {
   font-size: 1.15rem;
 }
 
-.dvfr-lede-links {
-  margin-top: 0.9rem !important;
-  font-size: 1rem !important;
+/* Inside .dvfr-app on purpose: that div is the seam a host copies, so the link
+   to the guide has to travel with it. */
+.dvfr-app-links {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
 }
 
 .dvfr-back {
@@ -145,7 +147,8 @@ h1, h2, h3, h4, h5 {
    block's height here would shift the page, un-stick the block, and oscillate. */
 .dvfr-sticky {
   position: sticky;
-  top: 0;
+  /* A host with its own fixed header sets --dvfr-sticky-top to its height. */
+  top: var(--dvfr-sticky-top, 0px);
   z-index: 20;
   background: var(--dvfr-paper);
 }
