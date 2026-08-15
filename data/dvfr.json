@@ -229,7 +229,8 @@
     "help": "Three to five steps you could start this week. Every one gets an owner and a date. A step with no date is a wish.",
     "wins_help": "Early wins get celebrated in public, and the people who did them get named. That is how the change stops being your project and starts being the organization's.",
     "empty": "No first steps yet. F is zero until something here has an owner and a date.",
-    "undated": "Some steps have no date. Those score as zero in F until they do."
+    "undated": "Some steps have no date. Those score as zero in F until they do.",
+    "unowned": "Some steps have no owner. A step everybody owns is a step nobody owns."
   },
 
   "guide": {

@@ -49,20 +49,27 @@ Open http://127.0.0.1:8000/
 
 ## Host configuration
 
-The default URLs are root-relative, which assumes the site is served from `/`. A host that mounts
-dvfr somewhere else can override them by setting `window.DVFR` in an inline script *before*
-`js/dvfr.js` or `js/dvfr-guide.js` loads:
+The defaults are relative and resolved against the page, so serving the repo from any path —
+`/`, `/dvfr/`, a GitHub Pages project URL — works with no configuration as long as `css/`, `js/`
+and `data/` stay next to the HTML.
+
+Override them when the assets do *not* sit beside the page, which is the case on a Hugo site that
+copies `css/`, `js/` and `data/` to the site root and renders the workbook markup in a page at
+`/dvfr/`. Set `window.DVFR` in an inline script *before* `js/dvfr.js` or `js/dvfr-guide.js` loads:
 
 ```html
 <script>
   window.DVFR = {
-    content: "/data/dvfr.json",   // teaching content
-    guidePage: "/dvfr/guide/",    // resolved against the current page
-    workbookPage: "/dvfr/",       // resolved against the current page
+    content: "/data/dvfr.json",   // teaching content; default "data/dvfr.json"
+    guidePage: "/dvfr/guide/",    // default "guide.html"
+    workbookPage: "/dvfr/",       // default "index.html"
     storageKey: "dvfr-workbook"   // localStorage key for the saved workbook
   };
 </script>
 ```
+
+All three URLs are resolved against the current page, so relative values follow the mount and
+absolute ones point wherever you say.
 
 Changing `storageKey` orphans any workbook already saved under the old key, so pick one and leave
 it alone.

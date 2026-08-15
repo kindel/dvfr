@@ -1,6 +1,9 @@
 (function () {
   var cfg = window.DVFR || {};
-  var contentUrl = cfg.content || "/data/dvfr.json";
+  // Resolved against the current document so the default keeps working when the
+  // site is served from a subdirectory; an absolute override still wins.
+  var contentUrl = new URL(cfg.content || "data/dvfr.json",
+    document.baseURI || window.location.href).href;
   var guidePage = cfg.guidePage || "guide.html";
   var STORE_KEY = cfg.storageKey || "dvfr-workbook";
   var STATE_VERSION = 1;
@@ -130,6 +133,16 @@
     return s;
   }
 
+  // Imported or re-keyed values have to land on a key the app renders by, or the
+  // record survives in storage but disappears from the plan and the export.
+  function knownKey(value, keys, fallback) {
+    return keys.indexOf(str(value)) === -1 ? fallback : str(value);
+  }
+
+  function bucketKeys() {
+    return content ? content.buckets.map(function (b) { return b.key; }) : [];
+  }
+
   function coerce(raw) {
     var s = emptyState();
     if (!raw || typeof raw !== "object") return s;
@@ -153,8 +166,8 @@
         id: str(p.id) || uid("p"),
         name: str(p.name),
         role: str(p.role),
-        bucket: str(p.bucket) || "non_supportive",
-        influence: str(p.influence) || "medium",
+        bucket: knownKey(p.bucket, bucketKeys(), "non_supportive"),
+        influence: knownKey(p.influence, INFLUENCE.map(function (i) { return i.key; }), "medium"),
         concern: str(p.concern),
         response: str(p.response)
       });
@@ -165,7 +178,9 @@
         id: str(a.id) || uid("a"),
         name: str(a.name),
         role: str(a.role),
-        state: str(a.state) || "not_asked"
+        state: knownKey(a.state, content
+          ? content.coalition.states.map(function (x) { return x.key; })
+          : [], "not_asked")
       });
     });
     (raw.steps || []).forEach(function (t) {
@@ -250,6 +265,13 @@
     };
   }
 
+  // Resistance is worth calling out when it is actually holding the change back.
+  // An untouched workbook scores 0 everywhere, where "R beats the force" is
+  // arithmetically true and completely unhelpful.
+  function resistanceBites(a) {
+    return a.s.r > 0 && (a.s.r >= a.force || a.s.r >= 7);
+  }
+
   function suggested(key) {
     var f = factor(key);
     var checks = state.checks[key] || [];
@@ -258,10 +280,16 @@
     return Math.round((hits / f.checks.length) * 10);
   }
 
+  function namedAlly(a) {
+    return !!(a.name.trim() || a.role.trim());
+  }
+
+  // Same predicate the plan and the export list by, so the tally and the page
+  // cannot disagree about who is in the coalition.
   function coalitionCount() {
     var n = 0;
     state.coalition.forEach(function (a) {
-      if (coalitionState(a.state).counts && a.name.trim()) n += 1;
+      if (coalitionState(a.state).counts && namedAlly(a)) n += 1;
     });
     return n;
   }
@@ -445,7 +473,7 @@
       track_.appendChild(fill);
       item.appendChild(track_);
       item.appendChild(el("span", "dvfr-minibar-value", String(a.s[f.key])));
-      item.addEventListener("click", function () { showTab(f.key, true); });
+      item.addEventListener("click", function () { showTab(f.key, true, true); });
       bars.appendChild(item);
     });
     host.appendChild(bars);
@@ -463,7 +491,7 @@
         flagNode.hidden = false;
         flagNode.className = "dvfr-weak-flag";
         flagNode.textContent = "Weakest of the three. This is the one to work on.";
-      } else if (k === "r" && a.s.r >= a.force && a.s.r > 0) {
+      } else if (k === "r" && resistanceBites(a)) {
         flagNode.hidden = false;
         flagNode.className = "dvfr-weak-flag";
         flagNode.textContent = "Resistance is beating the change force. Lower it or raise the rest.";
@@ -476,9 +504,26 @@
     if (coalitionBadge) {
       coalitionBadge.textContent = coalitionCount() + "/" + content.coalition.target;
     }
+
+    announce(copy.label + ". Change force " + one(a.force) + " against resistance " + a.s.r + ".");
+  }
+
+  // The score strip is rebuilt on every keystroke, so it cannot be a live region
+  // itself. This announces only when the sentence actually changes.
+  var lastAnnouncement = "";
+  function announce(text) {
+    if (text === lastAnnouncement) return;
+    lastAnnouncement = text;
+    var node = byId("dvfr-live");
+    if (node) node.textContent = text;
   }
 
   /* ------------------------------------------------------------------ tabs */
+
+  // The open tab, tracked here rather than read back from storage or the hash:
+  // both of those throw in a sandboxed frame, which would freeze arrow-key
+  // navigation at the first tab.
+  var activeTab = "d";
 
   function validTab(key) {
     return TAB_KEYS.indexOf(key) === -1 ? "d" : key;
@@ -494,8 +539,9 @@
     }
   }
 
-  function showTab(key, focusPanel) {
+  function showTab(key, focusPanel, fromUser) {
     key = validTab(key);
+    activeTab = key;
     TAB_KEYS.forEach(function (k) {
       var tab = byId("dvfr-tab-" + k);
       var panel = byId("dvfr-panel-" + k);
@@ -528,7 +574,7 @@
         }
       }
     }
-    track("dvfr_tab", { dvfr_tab: key });
+    if (fromUser) track("dvfr_tab", { dvfr_tab: key });
   }
 
   function bindSticky() {
@@ -546,10 +592,10 @@
     TAB_KEYS.forEach(function (k) {
       var tab = byId("dvfr-tab-" + k);
       if (!tab) return;
-      tab.addEventListener("click", function () { showTab(k, true); });
+      tab.addEventListener("click", function () { showTab(k, true, true); });
     });
     tablist.addEventListener("keydown", function (e) {
-      var current = TAB_KEYS.indexOf(storedTab());
+      var current = TAB_KEYS.indexOf(activeTab);
       var next = null;
       if (e.key === "ArrowRight") next = (current + 1) % TAB_KEYS.length;
       else if (e.key === "ArrowLeft") next = (current - 1 + TAB_KEYS.length) % TAB_KEYS.length;
@@ -557,18 +603,18 @@
       else if (e.key === "End") next = TAB_KEYS.length - 1;
       if (next === null) return;
       e.preventDefault();
-      showTab(TAB_KEYS[next]);
+      showTab(TAB_KEYS[next], false, true);
       byId("dvfr-tab-" + TAB_KEYS[next]).focus();
     });
     window.addEventListener("hashchange", function () {
       var fromHash = String(window.location.hash || "").replace(/^#dvfr-panel-/, "");
-      if (TAB_KEYS.indexOf(fromHash) !== -1) showTab(fromHash);
+      if (TAB_KEYS.indexOf(fromHash) !== -1) showTab(fromHash, false, true);
     });
     var jumps = document.querySelectorAll("[data-dvfr-tab]");
     for (var i = 0; i < jumps.length; i++) {
       jumps[i].addEventListener("click", function (e) {
         e.preventDefault();
-        showTab(this.getAttribute("data-dvfr-tab"), true);
+        showTab(this.getAttribute("data-dvfr-tab"), true, true);
       });
     }
   }
@@ -670,7 +716,7 @@
     weakFactor.plays.forEach(function (p) { ul.appendChild(el("li", null, p)); });
     plays.appendChild(ul);
 
-    if (a.s.r >= a.force || a.s.r >= 7) {
+    if (resistanceBites(a)) {
       var rf = factor("r");
       plays.appendChild(el("h4", null, "Resistance is " + a.s.r + ". Lower it."));
       var rul = el("ul");
@@ -981,9 +1027,13 @@
     clear(host);
     var live = state.steps.filter(function (t) { return t.text.trim(); });
     if (!live.length) return;
-    var undated = live.filter(function (t) { return !t.date || !t.owner.trim(); });
-    if (undated.length) {
+    // Two separate gaps, two separate messages: telling someone their dated step
+    // has no date because the owner is blank sends them to the wrong field.
+    if (live.some(function (t) { return !t.date; })) {
       host.appendChild(el("p", "dvfr-warning", content.first_steps.undated));
+    }
+    if (live.some(function (t) { return !t.owner.trim(); })) {
+      host.appendChild(el("p", "dvfr-warning", content.first_steps.unowned));
     }
     if (live.length > 5) {
       host.appendChild(el("p", "dvfr-warning",
@@ -1097,7 +1147,7 @@
       host.appendChild(pb);
     }
 
-    var allies = state.coalition.filter(function (x) { return x.name.trim() || x.role.trim(); });
+    var allies = state.coalition.filter(namedAlly);
     if (allies.length) {
       var cb = el("div", "dvfr-plan-block");
       cb.appendChild(el("h4", null,
@@ -1180,7 +1230,7 @@
     out.push("");
     var weak = factor(a.verdict === "zero" ? a.zeros[0] : a.weakest);
     weak.plays.forEach(function (p) { out.push("- " + p); });
-    if (a.s.r >= a.force || a.s.r >= 7) {
+    if (resistanceBites(a)) {
       out.push("");
       out.push("Resistance is " + a.s.r + ":");
       out.push("");
@@ -1229,7 +1279,7 @@
         });
     }
 
-    var allies = state.coalition.filter(function (x) { return x.name.trim() || x.role.trim(); });
+    var allies = state.coalition.filter(namedAlly);
     if (allies.length) {
       out.push("");
       out.push("## Coalition (" + coalitionCount() + " of " + content.coalition.target + " all in)");
@@ -1480,10 +1530,13 @@
       boot();
     })
     .catch(function () {
-      var host = byId("dvfr-factors");
-      if (host) {
-        clear(host);
-        host.appendChild(el("p", "dvfr-empty", "Could not load the model content."));
-      }
+      // Nothing below this point works without the content, so the message goes
+      // at the top of the app where it is visible whichever tab is open.
+      var app = byId("dvfr-app");
+      if (!app) return;
+      var note = el("p", "dvfr-empty dvfr-load-error",
+        "Could not load the model content. Reload the page, and if it keeps failing " +
+        "check that data/dvfr.json is being served.");
+      app.insertBefore(note, app.firstChild);
     });
 })();

@@ -1,6 +1,8 @@
 (function () {
   var cfg = window.DVFR || {};
-  var contentUrl = cfg.content || "/data/dvfr.json";
+  // Relative by default so a subdirectory mount works without configuration.
+  var contentUrl = new URL(cfg.content || "data/dvfr.json",
+    document.baseURI || window.location.href).href;
   var workbookPage = cfg.workbookPage || "index.html";
 
   function el(tag, className, text) {
