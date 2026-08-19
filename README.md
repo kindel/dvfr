@@ -104,3 +104,7 @@ score, it takes the cube root — the geometric mean — which puts the change f
 | up to 2 | Fragile |
 | up to 4.5 | Moving |
 | more than 4.5 | Unstoppable |
+
+## App card
+
+This repo ships `card.json` and `icon.png` as the listing for any host.
