@@ -108,3 +108,7 @@ score, it takes the cube root — the geometric mean — which puts the change f
 ## App card
 
 This repo ships `card.json` and `icon.png` as the listing for any host.
+
+## License
+
+MIT. Copyright (c) 2026 Kindel, LLC. Keep the copyright notice and permission notice in all copies.
