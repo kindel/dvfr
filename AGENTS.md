@@ -14,4 +14,4 @@ The tenets for this work live in the Tenets section of https://github.com/kindel
 
 SCHEMA.md is the contract. The data is data/index.json, data/facets.json, and data/<company>/<slug>.json. Do not fork a private copy of a set into this repo.
 
-This repo is the D x V x F > R change tool, not a principle set.
+This repo is the D x V x F > R change app, not a principle set.
