@@ -7,7 +7,7 @@ four buckets; build the coalition; commit to dated first steps; walk out with a 
 The model comes from
 [How to be a Secret Agent (of Change)](https://blog.kindel.com/2021/02/03/how-to-be-a-secret-agent-of-change/).
 
-Intended home: [https://kindel.com/dvfr/](https://kindel.com/dvfr/).
+Intended home: [https://kindel.com/kld/apps/dvfr/](https://kindel.com/kld/apps/dvfr/).
 
 ## Pages
 
@@ -50,19 +50,19 @@ Open http://127.0.0.1:8000/
 ## Host configuration
 
 The defaults are relative and resolved against the page, so serving the repo from any path —
-`/`, `/dvfr/`, a GitHub Pages project URL — works with no configuration as long as `css/`, `js/`
+`/`, `/kld/apps/dvfr/`, a GitHub Pages project URL - works with no configuration as long as `css/`, `js/`
 and `data/` stay next to the HTML.
 
 Override them when the assets do *not* sit beside the page, which is the case on a Hugo site that
 copies `css/`, `js/` and `data/` to the site root and renders the workbook markup in a page at
-`/dvfr/`. Set `window.DVFR` in an inline script *before* `js/dvfr.js` or `js/dvfr-guide.js` loads:
+`/kld/apps/dvfr/`. Set `window.DVFR` in an inline script *before* `js/dvfr.js` or `js/dvfr-guide.js` loads:
 
 ```html
 <script>
   window.DVFR = {
     content: "/data/dvfr.json",   // teaching content; default "data/dvfr.json"
-    guidePage: "/dvfr/guide/",    // default "guide.html"
-    workbookPage: "/dvfr/",       // default "index.html"
+    guidePage: "/kld/apps/dvfr/guide/",    // default "guide.html"
+    workbookPage: "/kld/apps/dvfr/",       // default "index.html"
     storageKey: "dvfr-workbook"   // localStorage key for the saved workbook
   };
 </script>
