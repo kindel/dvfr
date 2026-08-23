@@ -27,7 +27,7 @@ served as a real file (it is all the teaching copy; both pages render from it).
 
 ## 2. Create two pages
 
-`/dvfr/` — the workbook — and `/dvfr/guide/` — the model explained.
+`/kld/apps/dvfr/` (the workbook) and `/kld/apps/dvfr/guide/` (the model explained).
 
 The markup seam is clean: **copy `<div class="dvfr-app">…</div>` and everything inside it** out of
 the repo's `index.html` (for the workbook) and `guide.html` (for the guide). That div is the whole
@@ -38,28 +38,28 @@ with its own hero, breadcrumb, and repo link, the way `/biq/` does.
 Then, on each page, before the script:
 
 ```html
-<!-- /dvfr/ -->
+<!-- /kld/apps/dvfr/ -->
 <link rel="stylesheet" href="/css/dvfr.css">
 <link rel="stylesheet" href="/css/dvfr-kindel.css">
 <script>
   window.DVFR = {
     content: "/data/dvfr.json",
-    guidePage: "/dvfr/guide/",
-    workbookPage: "/dvfr/"
+    guidePage: "/kld/apps/dvfr/guide/",
+    workbookPage: "/kld/apps/dvfr/"
   };
 </script>
 <script src="/js/dvfr.js" defer></script>
 ```
 
 ```html
-<!-- /dvfr/guide/ -->
+<!-- /kld/apps/dvfr/guide/ -->
 <link rel="stylesheet" href="/css/dvfr.css">
 <link rel="stylesheet" href="/css/dvfr-kindel.css">
 <script>
   window.DVFR = {
     content: "/data/dvfr.json",
-    guidePage: "/dvfr/guide/",
-    workbookPage: "/dvfr/"
+    guidePage: "/kld/apps/dvfr/guide/",
+    workbookPage: "/kld/apps/dvfr/"
   };
 </script>
 <script src="/js/dvfr-guide.js" defer></script>
@@ -88,15 +88,15 @@ right for the standalone repo and wrong for the site — so the config is requir
 - **Nothing is uploaded.** The workbook lives in `localStorage` under `dvfr-workbook`, and the open
   tab in `sessionStorage` under `dvfr-tab`. The page says so in a note, because people write candid
   things about named colleagues in it — please keep that note.
-- **Tabs are deep-linkable** (`/dvfr/#dvfr-panel-r`) and the open tab is mirrored into the address
+- **Tabs are deep-linkable** (`/kld/apps/dvfr/#dvfr-panel-r`) and the open tab is mirrored into the address
   bar. If the site intercepts hash changes for anything, that is the one place to check.
 
 ## 4. Check after deploying
 
-1. `/dvfr/` renders four factor tabs plus Coalition and Export, and the score strip shows
+1. `/kld/apps/dvfr/` renders four factor tabs plus Coalition and Export, and the score strip shows
    `D 0 x V 0 x F 0 = 0`. If the strip is missing or the tabs are empty, `content` is pointing at
    the wrong place; the page will say so at the top.
-2. "Read the model first" goes to `/dvfr/guide/`, and the guide's link goes back to `/dvfr/`.
+2. "Read the model first" goes to `/kld/apps/dvfr/guide/`, and the guide's link goes back to `/kld/apps/dvfr/`.
 3. Score something, reload, and confirm the work comes back.
 4. Print preview from the D tab: you should get the change plan, not the workbook.
 5. At 390px wide, all six tabs are reachable and nothing scrolls sideways.
