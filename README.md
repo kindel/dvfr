@@ -5,7 +5,7 @@ and resistance; find out which factor is actually stopping the change; sort stak
 four buckets; build the coalition; commit to dated first steps; walk out with a one-page plan.
 
 The model comes from
-[How to be a Secret Agent (of Change)](https://blog.kindel.com/2021/02/03/how-to-be-a-secret-agent-of-change/).
+[How to be a Secret Agent (of Change)](https://kindel.com/essays/how-to-be-a-secret-agent-of-change/).
 
 Intended home: [https://kindel.com/kld/apps/dvfr/](https://kindel.com/kld/apps/dvfr/).
 
